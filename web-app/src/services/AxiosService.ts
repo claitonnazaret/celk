@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const AxiosService = axios.create({
-    baseURL: 'http://localhost:8081/api',
+    baseURL: 'https://celkbackend.herokuapp.com/api',
     timeout: 10000,
     withCredentials: true,
     headers: {
