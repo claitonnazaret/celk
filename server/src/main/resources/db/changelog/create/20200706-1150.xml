@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="1" author="claiton.nazaret">
+        <preConditions onFail="MARK_RAN" onFailMessage="Tabela unidade_federativa já existe">
+            <not>
+                <tableExists tableName="unidade_federativa"/>
+            </not>
+        </preConditions>
+        <comment>Criando a tabela unidade_federativa</comment>
+        <createTable tableName="unidade_federativa">
+            <column name="id" autoIncrement="true" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_unidade_federativa"/>
+            </column>
+            <column name="nome" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="sigla" type="char(2)" />
+            <column name="data_cadastro" type="timestamp" defaultValueComputed="now()">
+                <constraints nullable="false" />
+            </column>
+            <column name="data_atualizacao" type="timestamp" defaultValueComputed="now()" />
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
