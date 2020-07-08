@@ -14,6 +14,7 @@
     <packaging>war</packaging>
     <name>celk</name>
     <description>Demo project for Spring Boot</description>
+    <url>http://maven.apache.org</url>
 
     <properties>
         <java.version>1.8</java.version>
