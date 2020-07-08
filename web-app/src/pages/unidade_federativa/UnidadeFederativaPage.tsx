@@ -19,7 +19,7 @@ import {
 } from '@material-ui/core';
 import { TableHeader, Titulo, useConfirm, useNotificacao } from 'components';
 import { useStylesPrincipal } from 'styles';
-import { ColumnInterface, DataType } from 'types/TableTypes';
+import { DataType } from 'types/TableTypes';
 import { UnidadeFederativaService } from 'services/UnidadeFederativaService';
 import { Form } from 'react-final-form';
 import { TextField } from 'mui-rff';

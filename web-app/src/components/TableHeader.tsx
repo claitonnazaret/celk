@@ -30,7 +30,7 @@ const TableHeader: FunctionComponent<TableHeaderInterface> = ({ columns, func })
                 return o.id == id ? { id: id, order: o.order == 'asc' ? 'desc' : 'asc' } : o;
             }),
         );
-        const sortSearch = order.find((o) => o.id == id);
+        const sortSearch = order.find((o) => o.id === id);
         if (sortSearch) {
             const ss = `${sortSearch.id},${sortSearch.order}`;
             func(ss);
@@ -38,12 +38,12 @@ const TableHeader: FunctionComponent<TableHeaderInterface> = ({ columns, func })
     };
 
     const getOrder = (id) => {
-        const o1 = order.find((o) => o.id == id);
+        const o1 = order.find((o) => o.id === id);
         return o1 && o1.order ? o1.order : undefined;
     };
 
     const getOrderId = (id) => {
-        const o1 = order.find((o) => o.id == id);
+        const o1 = order.find((o) => o.id === id);
         return o1 && o1.id ? o1.id : undefined;
     };
 
