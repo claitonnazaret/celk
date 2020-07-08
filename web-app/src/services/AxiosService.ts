@@ -1,7 +1,10 @@
 import axios from 'axios';
 
+const URL =
+    window.location.hostname === 'localhost' ? 'http://localhost:8081/api' : 'https://celkbackend.herokuapp.com';
+
 const AxiosService = axios.create({
-    baseURL: 'https://celkbackend.herokuapp.com',
+    baseURL: URL,
     timeout: 10000,
     withCredentials: true,
     headers: {

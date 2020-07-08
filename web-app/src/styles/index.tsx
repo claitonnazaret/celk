@@ -60,6 +60,9 @@ const useStylesPrincipal = makeStyles((theme: Theme) =>
             padding: '0 10px 0 5px',
             margin: '5px',
         },
+        inline: {
+            display: 'inline',
+        },
     }),
 );
 

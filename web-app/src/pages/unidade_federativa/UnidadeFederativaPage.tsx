@@ -16,6 +16,7 @@ import {
     Tooltip,
     Zoom,
     TextField as TextMui,
+    Link, ListItemAvatar, Avatar, ListItemText, Typography, ListItem,
 } from '@material-ui/core';
 import { TableHeader, Titulo, useConfirm, useNotificacao } from 'components';
 import { useStylesPrincipal } from 'styles';
@@ -27,6 +28,7 @@ import { columns, validate } from './utils';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core';
 import { ptBR } from '@material-ui/core/locale';
+import { includes } from 'lodash';
 
 const UnidadeFederativaPage = () => {
     const defaultTheme = createMuiTheme({}, ptBR);
@@ -101,10 +103,9 @@ const UnidadeFederativaPage = () => {
             setLoading(true);
             UnidadeFederativaService.deletar(id)
                 .then(({ data }) => {
+                    pesquisar();
                     // @ts-ignore
-                    notificacao({ tipo: 'success', mensagem: 'Unidade Federativa foi deletada' }).then(() =>
-                        pesquisar(),
-                    );
+                    notificacao({ tipo: 'success', mensagem: 'Unidade Federativa foi deletada' });
                 })
                 .catch((error) => {
                     // @ts-ignore
@@ -135,19 +136,20 @@ const UnidadeFederativaPage = () => {
         );
     };
 
-    const onSubmit = async (values) => {
+    const onSubmit = async (values, form) => {
         setLoading(true);
         UnidadeFederativaService.save(values)
             .then(({ data }) => {
+                pesquisar();
+                form.reset();
                 setUF(INIT_VALUES);
                 // @ts-ignore
-                notificacao({ tipo: 'success', mensagem: 'Unidade Federativa salva com sucesso' }).then(() =>
-                    pesquisar(),
-                );
+                notificacao({ tipo: 'success', mensagem: 'Unidade Federativa salva com sucesso' });
             })
             .catch((error) => {
+                const message = includes(error.message, '422') ? 'Sigla já cadastrada' : error.message;
                 // @ts-ignore
-                notificacao({ tipo: 'error', mensagem: error.message });
+                notificacao({ tipo: 'error', mensagem: message });
             })
             .finally(() => setLoading(false));
     };
@@ -157,7 +159,16 @@ const UnidadeFederativaPage = () => {
             <Container maxWidth="lg">
                 <Paper style={{ padding: 16 }}>
                     <CssBaseline />
-                    <Titulo titulo="Cadastro de Unidades Federativas" breadcrumb="" loading={loading} />
+                    <Titulo
+                        titulo="Unidades Federativas"
+                        breadcrumb="Cadastro"
+                        bcNavs={[
+                            <Link key="cliente" color="textSecondary" variant="subtitle2">
+                                Unidades Federativas
+                            </Link>,
+                        ]}
+                        loading={loading}
+                    />
                     <Paper variant="outlined" style={{ padding: 16 }}>
                         <Form
                             onSubmit={onSubmit}
@@ -304,6 +315,26 @@ const UnidadeFederativaPage = () => {
                         onChangeRowsPerPage={handleChangeRowsPerPage}
                     />
                 </Paper>
+                <ListItem alignItems="center">
+                    <ListItemAvatar>
+                        <Avatar alt="Claiton Nazaret" src="/images/image.png" />
+                    </ListItemAvatar>
+                    <ListItemText
+                        primary={
+                            <Typography component="span" variant="subtitle1" color="secondary">
+                                Teste Celk
+                            </Typography>
+                        }
+                        secondary={
+                            <>
+                                <Typography component="span" variant="body2" className={classes.inline} color="inherit">
+                                    por Nazaret, Claiton
+                                </Typography>
+                                {' — Desde já agradeço a oportunidade…'}
+                            </>
+                        }
+                    />
+                </ListItem>
             </Container>
         </ThemeProvider>
     );

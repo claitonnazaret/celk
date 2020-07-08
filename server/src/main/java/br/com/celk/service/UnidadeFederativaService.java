@@ -2,11 +2,13 @@ package br.com.celk.service;
 
 import br.com.celk.domain.UnidadeFederativa;
 import br.com.celk.repository.UnidadeFederativaRepository;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -26,9 +28,16 @@ public class UnidadeFederativaService implements Serializable {
         return repository.findById(id).orElse(new UnidadeFederativa());
     }
 
-    public UnidadeFederativa save(UnidadeFederativa entity) {
+    public UnidadeFederativa save(UnidadeFederativa entity) throws Exception {
         entity.setDataAtualizacao(LocalDateTime.now());
-        return repository.save(entity);
+        entity.setSigla(entity.getSigla().toUpperCase());
+        UnidadeFederativa unidadeFederativa = null;
+        try {
+            unidadeFederativa = repository.save(entity);
+        } catch (Exception e) {
+            throw new Exception("Sigla já cadastrada", e);
+        }
+        return unidadeFederativa;
     }
 
     public void delete(Long id) {

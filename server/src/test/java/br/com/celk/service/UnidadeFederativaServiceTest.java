@@ -2,6 +2,7 @@ package br.com.celk.service;
 
 import br.com.celk.domain.UnidadeFederativa;
 import br.com.celk.repository.UnidadeFederativaRepository;
+import org.hibernate.exception.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -58,7 +59,12 @@ class UnidadeFederativaServiceTest {
 
         when(repository.save(unidadeFederativa)).thenReturn(unidadeFederativa);
 
-        UnidadeFederativa uf = service.save(unidadeFederativa);
+        UnidadeFederativa uf = null;
+        try {
+            uf = service.save(unidadeFederativa);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         assertThat(uf.getNome()).isEqualTo(unidadeFederativa.getNome());
     }

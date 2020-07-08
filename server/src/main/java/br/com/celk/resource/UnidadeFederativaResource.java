@@ -5,7 +5,7 @@ import br.com.celk.service.UnidadeFederativaService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,13 +28,20 @@ public class UnidadeFederativaResource {
     }
 
     @PostMapping
-    public ResponseEntity<UnidadeFederativa> save(@RequestBody UnidadeFederativa unidadeFederativa) {
-        return ResponseEntity.ok(service.save(unidadeFederativa));
+    public ResponseEntity<Object> save(@RequestBody UnidadeFederativa unidadeFederativa) {
+        try {
+            UnidadeFederativa uf = service.save(unidadeFederativa);
+            return ResponseEntity.ok(uf);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());
+        }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<UnidadeFederativa> delete(@RequestParam("id") Long id) {
+    @DeleteMapping("{id}")
+    public ResponseEntity delete(@PathVariable("id") Long id) {
         service.delete(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT)
+                .build();
     }
 }
